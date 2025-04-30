@@ -30,7 +30,6 @@ import com.example.mcdprojectapp.R
 import com.example.mcdprojectapp.models.BottomNavItem
 import com.example.mcdprojectapp.navigations.Routes
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNav(navController: NavHostController) {
     val navController1 = rememberNavController()
@@ -59,6 +58,10 @@ fun BottomNav(navController: NavHostController) {
 
             composable(Routes.Profile.routes){
                 ProfileScreen(navController)
+            }
+
+            composable(Routes.CategoryDetail.routes){
+                CategoryDetailScreen(navController)
             }
         }
     }

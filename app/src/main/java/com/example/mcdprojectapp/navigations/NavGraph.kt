@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.example.mcdprojectapp.screens.BottomNav
+import com.example.mcdprojectapp.screens.CategoryDetailScreen
 import com.example.mcdprojectapp.screens.HomeScreen
 import com.example.mcdprojectapp.screens.ProfileScreen
 import com.example.mcdprojectapp.screens.RequestScreen
@@ -36,6 +38,10 @@ fun NavGraph(navHostController: NavHostController) {
 
         composable(Routes.BottomNav.routes){
             BottomNav(navHostController)
+        }
+
+        composable(Routes.CategoryDetail.routes){
+            CategoryDetailScreen(navHostController)
         }
 //
 //        composable(Routes.ABC.routes){
