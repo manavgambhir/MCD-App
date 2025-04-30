@@ -5,9 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.mcdprojectapp.screens.AddOwnerScreen
 import com.example.mcdprojectapp.screens.BottomNav
 import com.example.mcdprojectapp.screens.CategoryDetailScreen
 import com.example.mcdprojectapp.screens.HomeScreen
+import com.example.mcdprojectapp.screens.OwnerDetailsScreen
 import com.example.mcdprojectapp.screens.ProfileScreen
 import com.example.mcdprojectapp.screens.RequestScreen
 import com.example.mcdprojectapp.screens.ServicesScreen
@@ -42,6 +44,14 @@ fun NavGraph(navHostController: NavHostController) {
 
         composable(Routes.CategoryDetail.routes){
             CategoryDetailScreen(navHostController)
+        }
+
+        composable(Routes.AddOwner.routes) {
+            AddOwnerScreen(navHostController)
+        }
+
+        composable(Routes.OwnerDetails.routes){
+            OwnerDetailsScreen(navHostController)
         }
 //
 //        composable(Routes.ABC.routes){

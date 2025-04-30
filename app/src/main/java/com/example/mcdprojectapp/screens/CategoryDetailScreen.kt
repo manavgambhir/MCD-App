@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
@@ -41,28 +43,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mcdprojectapp.navigations.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDetailScreen(navController: NavHostController) {
-
+    val scrollState = rememberScrollState()
     Column(modifier = Modifier.padding(10.dp)
-        .fillMaxSize()
+        .fillMaxSize().verticalScroll(scrollState)
     ){
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text("UPIC ID")
-
-            Spacer(modifier = Modifier.padding(4.dp))
-
-            Icon(
-                imageVector = Icons.Default.Info,
-                contentDescription = "Info",
-                modifier = Modifier.size(16.dp)
-            )
-
-            Text("065001810000700", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.End)
-        }
-
+        UpicDetails()
 
         Spacer(modifier = Modifier.padding(20.dp))
 
@@ -276,10 +266,13 @@ fun CategoryDetailScreen(navController: NavHostController) {
             }
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
         Column(verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End,modifier = Modifier.fillMaxSize()) {
             Button(
                 onClick = {
-                    // TODO:
+                    val route = Routes.AddOwner.routes
+                    navController.navigate(route)
                 },
                 modifier = Modifier.fillMaxWidth()
                     .padding(bottom = 30.dp)
@@ -291,10 +284,25 @@ fun CategoryDetailScreen(navController: NavHostController) {
             ) {
                 Text(text = "Proceed", fontSize = 16.sp)
             }
-
-//            Spacer(modifier = Modifier.padding(20.dp))
         }
 
+    }
+}
+
+@Composable
+fun UpicDetails() {
+    Row(verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
+        Text("UPIC ID")
+
+        Spacer(modifier = Modifier.padding(4.dp))
+
+        Icon(
+            imageVector = Icons.Default.Info,
+            contentDescription = "Info",
+            modifier = Modifier.size(16.dp)
+        )
+
+        Text("065001810000700", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.End)
     }
 }
 

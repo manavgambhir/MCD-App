@@ -45,23 +45,27 @@ fun BottomNav(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = Routes.Home.routes){
-                HomeScreen(navController)
+                HomeScreen(navController1)
             }
 
             composable(route = Routes.Services.routes){
-                ServicesScreen(navController)
+                ServicesScreen(navController1)
             }
 
             composable(route = Routes.Request.routes){
-                RequestScreen(navController)
+                RequestScreen(navController1)
             }
 
             composable(Routes.Profile.routes){
-                ProfileScreen(navController)
+                ProfileScreen(navController1)
             }
 
             composable(Routes.CategoryDetail.routes){
-                CategoryDetailScreen(navController)
+                CategoryDetailScreen(navController1)
+            }
+
+            composable(Routes.AddOwner.routes){
+                AddOwnerScreen(navController1)
             }
         }
     }
