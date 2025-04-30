@@ -1,6 +1,7 @@
 package com.example.mcdprojectapp.screens
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,9 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
@@ -46,11 +45,9 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDetailScreen(navController: NavHostController) {
-    val scrollState = rememberScrollState()
 
     Column(modifier = Modifier.padding(10.dp)
-        .fillMaxSize().
-        verticalScroll(scrollState)
+        .fillMaxSize()
     ){
         Row(modifier = Modifier.fillMaxWidth()) {
             Text("UPIC ID")
@@ -279,21 +276,25 @@ fun CategoryDetailScreen(navController: NavHostController) {
             }
         }
 
-        Button(
-            onClick = {
-                // TODO:
-            },
-            modifier = Modifier.fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF111184)
-            ),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text(text = "Proceed", fontSize = 16.sp)
+        Column(verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End,modifier = Modifier.fillMaxSize()) {
+            Button(
+                onClick = {
+                    // TODO:
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 30.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF111184)
+                ),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(text = "Proceed", fontSize = 16.sp)
+            }
+
+//            Spacer(modifier = Modifier.padding(20.dp))
         }
 
-        Spacer(modifier = Modifier.padding(20.dp))
     }
 }
 
