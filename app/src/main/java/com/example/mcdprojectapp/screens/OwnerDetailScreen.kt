@@ -262,6 +262,7 @@ fun OwnerDetailsScreen(navController: NavHostController, sharedVM: SharedVM) {
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp)
@@ -284,6 +285,7 @@ fun OwnerDetailsScreen(navController: NavHostController, sharedVM: SharedVM) {
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp)
@@ -481,6 +483,7 @@ fun OwnerDetailsScreen(navController: NavHostController, sharedVM: SharedVM) {
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp, bottom = 10.dp)

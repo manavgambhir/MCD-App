@@ -9,6 +9,7 @@ import com.example.mcdprojectapp.screens.AddFloorScreen
 import com.example.mcdprojectapp.screens.AddOwnerScreen
 import com.example.mcdprojectapp.screens.BottomNav
 import com.example.mcdprojectapp.screens.CategoryDetailScreen
+import com.example.mcdprojectapp.screens.FinalPropertyScreen
 import com.example.mcdprojectapp.screens.HomeScreen
 import com.example.mcdprojectapp.screens.LandAreaDetailsScreen
 import com.example.mcdprojectapp.screens.OwnerDetailScreen2
@@ -79,6 +80,10 @@ fun NavGraph(navHostController: NavHostController) {
 
         composable(Routes.TaxFactorDetail.routes){
             TaxFactorDetails(navHostController,sharedVM)
+        }
+
+        composable(Routes.FinalProperty.routes){
+            FinalPropertyScreen(navHostController)
         }
 
 //        composable(Routes.ABC.routes){

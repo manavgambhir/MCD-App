@@ -15,4 +15,5 @@ sealed class Routes(val routes:String) {
     object AddFloor: Routes("add_floor")
     object TaxFactor: Routes("tax_factor")
     object TaxFactorDetail: Routes("tax_factor_details")
+    object FinalProperty: Routes("final_property")
 }

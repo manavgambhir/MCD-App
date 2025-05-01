@@ -112,7 +112,6 @@ fun TaxFactorItem(
 
                 OutlinedButton(
                     onClick = onDeleteClick,
-
                     border = BorderStroke(1.dp, Color.Transparent),
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.Red

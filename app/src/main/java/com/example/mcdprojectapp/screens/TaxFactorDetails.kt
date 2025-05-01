@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.itemView.TaxFactorItem
@@ -108,7 +109,7 @@ fun TaxFactorDetails(navController: NavHostController, sharedVM: SharedVM) {
         Column(verticalArrangement = Arrangement.Bottom) {
             Button(
                 onClick = {
-                    val route = Routes.LandAreaDetails.routes
+                    val route = Routes.FinalProperty.routes
                     navController.navigate(route)
                 },
                 modifier = Modifier
@@ -128,5 +129,6 @@ fun TaxFactorDetails(navController: NavHostController, sharedVM: SharedVM) {
 @Composable
 fun TaxFactorDetailPreview(){
     val navController = rememberNavController()
-//    TaxFactorDetails(navController, sharedVM)
+//    val shareVM:SharedVM = viewModel()
+//    TaxFactorDetails(navController, shareVM)
 }
