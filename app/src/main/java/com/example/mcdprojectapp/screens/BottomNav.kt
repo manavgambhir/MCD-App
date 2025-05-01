@@ -67,6 +67,10 @@ fun BottomNav(navController: NavHostController) {
             composable(Routes.AddOwner.routes){
                 AddOwnerScreen(navController1)
             }
+
+            composable(Routes.OwnerDetails.routes){
+                OwnerDetailsScreen(navController1)
+            }
         }
     }
 }

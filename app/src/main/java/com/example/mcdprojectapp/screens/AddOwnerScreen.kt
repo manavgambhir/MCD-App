@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.R
+import com.example.mcdprojectapp.navigations.Routes
 
 @Composable
 fun AddOwnerScreen(navController: NavHostController) {
@@ -101,7 +102,8 @@ fun AddOwnerScreen(navController: NavHostController) {
 
                     Button(
                         onClick = {
-                            // TODO: Handle add new owner click
+                            val route = Routes.OwnerDetails.routes
+                            navController.navigate(route)
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF111184)),
                         shape = RoundedCornerShape(8.dp),

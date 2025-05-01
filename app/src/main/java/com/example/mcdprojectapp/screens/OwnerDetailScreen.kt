@@ -83,6 +83,9 @@ fun OwnerDetailsScreen(navController: NavHostController) {
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
+        UpicDetails()
+
+        Spacer(modifier = Modifier.padding(20.dp))
         Text(
             text = "Enter Owner Details",
             fontWeight = FontWeight.Medium,
@@ -145,6 +148,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: Replace with dropdown
         Text(text = "Gender")
         TextField(
             value = gender,
@@ -163,6 +167,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: OnClick Functionality not working
         Text(text = "Date of Birth")
         TextField(
             value = dob,
@@ -358,6 +363,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: Expandable textField
         Text(text = "Address Line 1")
         var addressLine1 by remember { mutableStateOf("") }
         TextField(
@@ -377,6 +383,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: Expandable textField
         Text(text = "Address Line 2")
         var addressLine2 by remember { mutableStateOf("") }
         TextField(
@@ -415,6 +422,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: Full state list
         Text(text = "State")
         var stateExpanded by remember { mutableStateOf(false) }
         var stateSelected by remember { mutableStateOf("") }
@@ -463,6 +471,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
+        // TODO: Full country list
         Text(text = "Country")
         var countryExpanded by remember { mutableStateOf(false) }
         var countrySelected by remember { mutableStateOf("") }
