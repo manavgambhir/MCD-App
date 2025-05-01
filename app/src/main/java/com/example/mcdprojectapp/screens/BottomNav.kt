@@ -85,11 +85,11 @@ fun BottomNav(navController: NavHostController, sharedVM: SharedVM) {
             }
 
             composable(Routes.TaxFactor.routes){
-                TaxFactorScreen(navController1)
+                TaxFactorScreen(navController1, sharedVM)
             }
 
             composable(Routes.TaxFactorDetail.routes){
-                TaxFactorDetails(navController1)
+                TaxFactorDetails(navController1, sharedVM)
             }
         }
     }

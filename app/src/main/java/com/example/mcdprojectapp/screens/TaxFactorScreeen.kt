@@ -1,5 +1,6 @@
 package com.example.mcdprojectapp.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,18 +29,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mcdprojectapp.models.TaxFactorDetail
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaxFactorScreen(navController: NavHostController) {
+fun TaxFactorScreen(navController: NavHostController, sharedVM: SharedVM) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -112,6 +119,7 @@ fun TaxFactorScreen(navController: NavHostController) {
         TextField(
             value = coveredArea,
             onValueChange = { coveredArea = it },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -450,8 +458,21 @@ fun TaxFactorScreen(navController: NavHostController) {
 
         Button(
             onClick = {
-                val route = Routes.TaxFactorDetail.routes
-                navController.navigate(route)
+                if(checkNull(selectedFloor,coveredArea,selectedPropertyCategory,selectedPropertyType,selectedExemption)){
+                    val taxFactor = TaxFactorDetail(
+                        selectedFloor = selectedFloor,
+                        area = coveredArea,
+                        propCategory = selectedPropertyCategory,
+                        propType = selectedPropertyType,
+                        excemption = selectedExemption
+                    )
+                    sharedVM.addTaxFactor(taxFactor)
+                    val route = Routes.TaxFactorDetail.routes
+                    navController.navigate(route)
+                }
+                else{
+                    Toast.makeText(context,"Fields can not be empty", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -466,10 +487,14 @@ fun TaxFactorScreen(navController: NavHostController) {
     }
 }
 
+fun checkNull(selectedFloor: String, coveredArea: String, selectedPropertyCategory: String, selectedPropertyType: String, selectedExemption: String): Boolean {
+    return selectedFloor.isNotBlank() && coveredArea.isNotBlank() && selectedPropertyCategory.isNotBlank() && selectedPropertyType.isNotBlank() && selectedExemption.isNotBlank()
+}
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TaxFactorPreview(){
     val navController = rememberNavController()
-    TaxFactorScreen(navController = navController)
+//    TaxFactorScreen(navController = navController, sharedVM = sharedVM)
 }

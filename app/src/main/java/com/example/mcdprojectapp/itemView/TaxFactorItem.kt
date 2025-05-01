@@ -28,12 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mcdprojectapp.screens.TaxFactorDetails
 
 @Composable
 fun TaxFactorItem(
     selectedFloor: String,
-    area: Double,
+    area: String,
     propCategory: String,
     propType: String,
     excemption: String,
@@ -53,7 +52,7 @@ fun TaxFactorItem(
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(text = "Covered Area (In Sq. Mtr.)")
-                    Text(text = "$area", fontWeight = FontWeight.SemiBold)
+                    Text(text = area, fontWeight = FontWeight.SemiBold)
                 }
             }
 
@@ -66,7 +65,7 @@ fun TaxFactorItem(
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(text = "Property Type")
-                    Text(text = "$propType", fontWeight = FontWeight.SemiBold)
+                    Text(text = propType, fontWeight = FontWeight.SemiBold)
                 }
             }
 
@@ -112,7 +111,7 @@ fun TaxFactorItem(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 OutlinedButton(
-                    onClick = { },
+                    onClick = onDeleteClick,
 
                     border = BorderStroke(1.dp, Color.Transparent),
                     colors = ButtonDefaults.outlinedButtonColors(
@@ -141,11 +140,11 @@ fun TaxFactorItem(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TaxPreview(){
-    TaxFactorItem(
-        selectedFloor = "1 ",
-        area = 100.0,
-        propCategory = "Residential",
-        propType = "Residential Plotted",
-        excemption = "No Excemption",
-    )
+//    TaxFactorItem(
+//        selectedFloor = "1 ",
+//        area = 100.0,
+//        propCategory = "Residential",
+//        propType = "Residential Plotted",
+//        excemption = "No Excemption",
+//    )
 }

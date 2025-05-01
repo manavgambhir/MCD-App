@@ -74,11 +74,11 @@ fun NavGraph(navHostController: NavHostController) {
         }
 
         composable(Routes.TaxFactor.routes){
-            TaxFactorScreen(navHostController)
+            TaxFactorScreen(navHostController,sharedVM)
         }
 
         composable(Routes.TaxFactorDetail.routes){
-            TaxFactorDetails(navHostController)
+            TaxFactorDetails(navHostController,sharedVM)
         }
 
 //        composable(Routes.ABC.routes){

@@ -20,6 +20,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -28,29 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.mcdprojectapp.itemView.OwnerDetailItem
 import com.example.mcdprojectapp.itemView.TaxFactorItem
 import com.example.mcdprojectapp.models.TaxFactorDetail
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @Composable
-fun TaxFactorDetails(navController: NavHostController) {
-    val taxFactorItems = listOf(
-        TaxFactorDetail(
-            selectedFloor = "Floor 1",
-            area = 120.5,
-            propCategory = "Residential",
-            propType = "Apartment",
-            excemption = "None"
-        ),
-        TaxFactorDetail(
-            selectedFloor = "Floor 2",
-            area = 85.0,
-            propCategory = "Commercial",
-            propType = "Office",
-            excemption = "Govt Approved"
-        )
-    )
+fun TaxFactorDetails(navController: NavHostController, sharedVM: SharedVM) {
+    val taxFactorItems by remember { mutableStateOf(sharedVM.taxFactor) }
 
     Column(
         modifier = Modifier
@@ -72,18 +60,20 @@ fun TaxFactorDetails(navController: NavHostController) {
         LazyColumn(
             modifier = Modifier.weight(1f)
         ) {
-        items(taxFactorItems) { item ->
-            TaxFactorItem(
-                selectedFloor = item.selectedFloor,
-                area = item.area,
-                propCategory = item.propCategory,
-                propType = item.propType,
-                excemption = item.excemption,
-                onEditClick = {  },
-                onDeleteClick = {  }
-            )
-            Spacer(modifier = Modifier.padding(4.dp))
-        }
+            items(taxFactorItems) { item ->
+                TaxFactorItem(
+                    selectedFloor = item.selectedFloor,
+                    area = item.area,
+                    propCategory = item.propCategory,
+                    propType = item.propType,
+                    excemption = item.excemption,
+                    onEditClick = {  },
+                    onDeleteClick = {
+                        sharedVM.removeTaxFactor(item)
+                    }
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+            }
 
             item {
                 Spacer(modifier = Modifier.padding(4.dp))
@@ -92,7 +82,10 @@ fun TaxFactorDetails(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
-                        onClick = { /* Handle add new owner */ },
+                        onClick = {
+                            val route = Routes.TaxFactor.routes
+                            navController.navigate(route)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = Color.White,
                             containerColor = Color.Blue
@@ -135,5 +128,5 @@ fun TaxFactorDetails(navController: NavHostController) {
 @Composable
 fun TaxFactorDetailPreview(){
     val navController = rememberNavController()
-    TaxFactorDetails(navController)
+//    TaxFactorDetails(navController, sharedVM)
 }
