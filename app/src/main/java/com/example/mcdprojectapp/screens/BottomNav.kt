@@ -71,6 +71,26 @@ fun BottomNav(navController: NavHostController) {
             composable(Routes.OwnerDetails.routes){
                 OwnerDetailsScreen(navController1)
             }
+
+            composable(Routes.OwnerDetails2.routes){
+                OwnerDetailScreen2(navController1)
+            }
+
+            composable(Routes.LandAreaDetails.routes){
+                LandAreaDetailsScreen(navController1)
+            }
+
+            composable(Routes.AddFloor.routes){
+                AddFloorScreen(navController1)
+            }
+
+            composable(Routes.TaxFactor.routes){
+                TaxFactorScreen(navController1)
+            }
+
+            composable(Routes.TaxFactorDetail.routes){
+                TaxFactorDetails(navController1)
+            }
         }
     }
 }

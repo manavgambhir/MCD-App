@@ -5,15 +5,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.mcdprojectapp.screens.AddFloorScreen
 import com.example.mcdprojectapp.screens.AddOwnerScreen
 import com.example.mcdprojectapp.screens.BottomNav
 import com.example.mcdprojectapp.screens.CategoryDetailScreen
 import com.example.mcdprojectapp.screens.HomeScreen
+import com.example.mcdprojectapp.screens.LandAreaDetailsScreen
+import com.example.mcdprojectapp.screens.OwnerDetailScreen2
 import com.example.mcdprojectapp.screens.OwnerDetailsScreen
 import com.example.mcdprojectapp.screens.ProfileScreen
 import com.example.mcdprojectapp.screens.RequestScreen
 import com.example.mcdprojectapp.screens.ServicesScreen
 import com.example.mcdprojectapp.screens.SplashScreen
+import com.example.mcdprojectapp.screens.TaxFactorDetails
+import com.example.mcdprojectapp.screens.TaxFactorScreen
 
 @Composable
 fun NavGraph(navHostController: NavHostController) {
@@ -53,7 +58,27 @@ fun NavGraph(navHostController: NavHostController) {
         composable(Routes.OwnerDetails.routes){
             OwnerDetailsScreen(navHostController)
         }
-//
+
+        composable(Routes.OwnerDetails2.routes){
+            OwnerDetailScreen2(navHostController)
+        }
+
+        composable(Routes.LandAreaDetails.routes){
+            LandAreaDetailsScreen(navHostController)
+        }
+
+        composable(Routes.AddFloor.routes){
+            AddFloorScreen(navHostController)
+        }
+
+        composable(Routes.TaxFactor.routes){
+            TaxFactorScreen(navHostController)
+        }
+
+        composable(Routes.TaxFactorDetail.routes){
+            TaxFactorDetails(navHostController)
+        }
+
 //        composable(Routes.ABC.routes){
 //            val data = it.arguments?.getString("data")
 //            OtherUserProfile(navController, data!!)

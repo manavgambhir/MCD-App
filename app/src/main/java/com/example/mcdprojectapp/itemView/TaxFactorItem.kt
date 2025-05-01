@@ -28,16 +28,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.example.mcdprojectapp.screens.TaxFactorDetails
 
 @Composable
-fun OwnerDetailItem(
-    fullName: String,
-    gender: String,
-    ownership: Double,
-    email: String,
-    rebate: String,
-    address: String,
+fun TaxFactorItem(
+    selectedFloor: String,
+    area: Double,
+    propCategory: String,
+    propType: String,
+    excemption: String,
     onEditClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {}
 ) {
@@ -47,36 +46,35 @@ fun OwnerDetailItem(
             .fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
-            Text(text = "Full Name")
-            Text(text = fullName, fontWeight = FontWeight.SemiBold)
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = "Gender")
-                    Text(text = gender, fontWeight = FontWeight.SemiBold)
+                    Text(text = "Selected Floor")
+                    Text(text = selectedFloor, fontWeight = FontWeight.SemiBold)
                 }
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = "Ownership")
-                    Text(text = "$ownership %", fontWeight = FontWeight.SemiBold)
+                    Text(text = "Covered Area (In Sq. Mtr.)")
+                    Text(text = "$area", fontWeight = FontWeight.SemiBold)
                 }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Text(text = "Email ID")
-            Text(text = email, fontWeight = FontWeight.SemiBold)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = "Property Category")
+                    Text(text = propCategory, fontWeight = FontWeight.SemiBold)
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = "Property Type")
+                    Text(text = "$propType", fontWeight = FontWeight.SemiBold)
+                }
+            }
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Text(text = "Owner Rebate")
-            Text(text = rebate, fontWeight = FontWeight.SemiBold)
+            Text(text = "Excemption")
+            Text(text = excemption, fontWeight = FontWeight.SemiBold)
 
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Text(text = "Address")
-            Text(text = address, fontWeight = FontWeight.SemiBold)
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -139,15 +137,15 @@ fun OwnerDetailItem(
     }
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun OwnerPreview(){
-    OwnerDetailItem(
-        fullName = "Vikram Singh Rathode",
-        gender = "Male",
-        ownership = 100.0,
-        email = "Winifred37@hotmail.com",
-        rebate = "123",
-        address = "2298 S Front Street, Port Alysson 54305"
+fun TaxPreview(){
+    TaxFactorItem(
+        selectedFloor = "1 ",
+        area = 100.0,
+        propCategory = "Residential",
+        propType = "Residential Plotted",
+        excemption = "No Excemption",
     )
 }

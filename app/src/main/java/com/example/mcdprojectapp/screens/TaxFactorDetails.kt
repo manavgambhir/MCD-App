@@ -1,6 +1,5 @@
 package com.example.mcdprojectapp.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,15 +12,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,39 +29,26 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.itemView.OwnerDetailItem
-import com.example.mcdprojectapp.models.OwnerDetails
+import com.example.mcdprojectapp.itemView.TaxFactorItem
+import com.example.mcdprojectapp.models.TaxFactorDetail
 import com.example.mcdprojectapp.navigations.Routes
 
 @Composable
-fun OwnerDetailScreen2(navController: NavHostController) {
-    val owners = listOf(
-        OwnerDetails(
-            firstName = "Vikram",
-            middleName = "Singh",
-            lastName = "Rathod",
-            gender = "Male",
-            ownership = 100.0,
-            email = "Winifred37@hotmail.com",
-            ownerRebate = "123",
-            address1 = "2298 S Front Street",
-            address2 = "Port Alysson",
-            pincode = 54305,
-            state = "Maharashtra",
-            country = "India"
+fun TaxFactorDetails(navController: NavHostController) {
+    val taxFactorItems = listOf(
+        TaxFactorDetail(
+            selectedFloor = "Floor 1",
+            area = 120.5,
+            propCategory = "Residential",
+            propType = "Apartment",
+            excemption = "None"
         ),
-        OwnerDetails(
-            firstName = "Raju",
-            middleName = "Shrivastav",
-            lastName = "Rathod",
-            gender = "Male",
-            ownership = 100.0,
-            email = "Winifred37@hotmail.com",
-            ownerRebate = "123",
-            address1 = "2298 S Front Street",
-            address2 = "Port Alysson",
-            pincode = 54305,
-            state = "Maharashtra",
-            country = "India"
+        TaxFactorDetail(
+            selectedFloor = "Floor 2",
+            area = 85.0,
+            propCategory = "Commercial",
+            propType = "Office",
+            excemption = "Govt Approved"
         )
     )
 
@@ -89,21 +72,18 @@ fun OwnerDetailScreen2(navController: NavHostController) {
         LazyColumn(
             modifier = Modifier.weight(1f)
         ) {
-            items(owners) { owner ->
-                OwnerDetailItem(
-                    fullName = owner.firstName,
-                    gender = owner.gender,
-                    ownership = owner.ownership,
-                    email = owner.email,
-                    rebate = owner.ownerRebate,
-                    address = owner.address1,
-                    onEditClick = { /* Handle edit */ },
-                    onDeleteClick = { /* Handle delete */ }
-                )
-                Spacer(modifier = Modifier.padding(4.dp))
-            }
-
-
+        items(taxFactorItems) { item ->
+            TaxFactorItem(
+                selectedFloor = item.selectedFloor,
+                area = item.area,
+                propCategory = item.propCategory,
+                propType = item.propType,
+                excemption = item.excemption,
+                onEditClick = {  },
+                onDeleteClick = {  }
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
 
             item {
                 Spacer(modifier = Modifier.padding(4.dp))
@@ -145,7 +125,7 @@ fun OwnerDetailScreen2(navController: NavHostController) {
                     containerColor = Color(0xFF111184)),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Proceed", fontSize = 16.sp, color = Color.White)
+                Text("Submit", fontSize = 16.sp, color = Color.White)
             }
         }
     }
@@ -153,7 +133,7 @@ fun OwnerDetailScreen2(navController: NavHostController) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun OwnerDetail2Preview(){
+fun TaxFactorDetailPreview(){
     val navController = rememberNavController()
-    OwnerDetailScreen2(navController)
+    TaxFactorDetails(navController)
 }

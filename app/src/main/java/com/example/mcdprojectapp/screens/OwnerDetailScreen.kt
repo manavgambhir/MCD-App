@@ -3,6 +3,7 @@ package com.example.mcdprojectapp.screens
 import android.app.DatePickerDialog
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mcdprojectapp.navigations.Routes
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,19 +65,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
     var ownership by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-    val calendar = Calendar.getInstance()
-
-    val datePickerDialog = remember {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                dob = "$dayOfMonth/${month + 1}/$year"
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-    }
+    val calendar = remember { Calendar.getInstance() }
 
     Column(
         modifier = Modifier
@@ -148,45 +138,93 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // TODO: Replace with dropdown
         Text(text = "Gender")
-        TextField(
-            value = gender,
-            onValueChange = { gender = it },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp)
-                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
-        )
+        var genderExpanded by remember { mutableStateOf(false) }
+        val genderOptions = listOf("Male", "Female", "Other")
+
+        ExposedDropdownMenuBox(
+            expanded = genderExpanded,
+            onExpandedChange = { genderExpanded = !genderExpanded }
+        ) {
+            TextField(
+                value = gender,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderExpanded)
+                },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+                    .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                )
+            )
+            ExposedDropdownMenu(
+                expanded = genderExpanded,
+                onDismissRequest = { genderExpanded = false }
+            ) {
+                genderOptions.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            gender = option
+                            genderExpanded = false
+                        }
+                    )
+                }
+            }
+        }
+
 
         Spacer(modifier = Modifier.padding(10.dp))
 
         // TODO: OnClick Functionality not working
+        val datePickerDialog = remember {
+            DatePickerDialog(
+                context,
+                { _, year, month, dayOfMonth ->
+                    dob = "$dayOfMonth/${month + 1}/$year"
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        }
+
+        val interactionSource = remember { MutableInteractionSource() }
+
         Text(text = "Date of Birth")
+
         TextField(
             value = dob,
-            onValueChange = {},
+            onValueChange = {}, // Since it's read-only
             readOnly = true,
             leadingIcon = {
                 Icon(Icons.Default.DateRange, contentDescription = "DOB")
             },
+            interactionSource = interactionSource,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    datePickerDialog.show()
+                },
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp)
-                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
-                .clickable { datePickerDialog.show() }
+            )
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
@@ -363,42 +401,44 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // TODO: Expandable textField
         Text(text = "Address Line 1")
         var addressLine1 by remember { mutableStateOf("") }
         TextField(
             value = addressLine1,
             onValueChange = { addressLine1 = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp, bottom = 10.dp)
+                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 10.dp)
-                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
+            singleLine = false,
+            maxLines = 4
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // TODO: Expandable textField
         Text(text = "Address Line 2")
         var addressLine2 by remember { mutableStateOf("") }
         TextField(
             value = addressLine2,
             onValueChange = { addressLine2 = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp, bottom = 10.dp)
+                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 10.dp)
-                .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
+            singleLine = false,
+            maxLines = 4
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
@@ -570,7 +610,8 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Button(
             onClick = {
-                // TODO: Handle next step
+                val route = Routes.OwnerDetails2.routes
+                navController.navigate(route)
             },
             modifier = Modifier
                 .fillMaxWidth()
