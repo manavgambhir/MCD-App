@@ -1,6 +1,5 @@
 package com.example.mcdprojectapp.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,17 +12,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,42 +32,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.itemView.OwnerDetailItem
-import com.example.mcdprojectapp.models.OwnerDetails
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @Composable
-fun OwnerDetailScreen2(navController: NavHostController) {
-    val owners = listOf(
-        OwnerDetails(
-            firstName = "Vikram",
-            middleName = "Singh",
-            lastName = "Rathod",
-            gender = "Male",
-            ownership = 100.0,
-            email = "Winifred37@hotmail.com",
-            ownerRebate = "123",
-            address1 = "2298 S Front Street",
-            address2 = "Port Alysson",
-            pincode = 54305,
-            state = "Maharashtra",
-            country = "India"
-        ),
-        OwnerDetails(
-            firstName = "Raju",
-            middleName = "Shrivastav",
-            lastName = "Rathod",
-            gender = "Male",
-            ownership = 100.0,
-            email = "Winifred37@hotmail.com",
-            ownerRebate = "123",
-            address1 = "2298 S Front Street",
-            address2 = "Port Alysson",
-            pincode = 54305,
-            state = "Maharashtra",
-            country = "India"
-        )
-    )
-
+fun OwnerDetailScreen2(navController: NavHostController, sharedVM: SharedVM) {
+    val owners by remember { mutableStateOf(sharedVM.owners) }
     Column(
         modifier = Modifier
             .padding(10.dp)
@@ -91,14 +60,24 @@ fun OwnerDetailScreen2(navController: NavHostController) {
         ) {
             items(owners) { owner ->
                 OwnerDetailItem(
-                    fullName = owner.firstName,
+                    fullName = if(owner.middleName.isNotBlank()){
+                        owner.firstName+" "+owner.middleName+" "+owner.lastName
+                    } else{
+                        owner.firstName+" "+owner.lastName
+                    },
                     gender = owner.gender,
                     ownership = owner.ownership,
                     email = owner.email,
                     rebate = owner.ownerRebate,
-                    address = owner.address1,
-                    onEditClick = { /* Handle edit */ },
-                    onDeleteClick = { /* Handle delete */ }
+                    address = if(owner.address2.isNotBlank()){
+                        owner.address1+", "+owner.address2+", "+owner.state
+                    }else{
+                        owner.address1+", "+owner.state
+                    },
+                    onEditClick = {  },
+                    onDeleteClick = {
+                        sharedVM.removeOwner(owner)
+                    }
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
             }
@@ -112,7 +91,10 @@ fun OwnerDetailScreen2(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
-                        onClick = { /* Handle add new owner */ },
+                        onClick = {
+                            val route = Routes.OwnerDetails.routes
+                            navController.navigate(route)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = Color.White,
                             containerColor = Color.Blue
@@ -155,5 +137,5 @@ fun OwnerDetailScreen2(navController: NavHostController) {
 @Composable
 fun OwnerDetail2Preview(){
     val navController = rememberNavController()
-    OwnerDetailScreen2(navController)
+//    OwnerDetailScreen2(navController, sharedVM)
 }

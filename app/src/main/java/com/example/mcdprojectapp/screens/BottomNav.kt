@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,9 +28,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.R
 import com.example.mcdprojectapp.models.BottomNavItem
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @Composable
-fun BottomNav(navController: NavHostController) {
+fun BottomNav(navController: NavHostController, sharedVM: SharedVM) {
     val navController1 = rememberNavController()
 //    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     Scaffold(bottomBar = {
@@ -49,7 +49,7 @@ fun BottomNav(navController: NavHostController) {
             }
 
             composable(route = Routes.Services.routes){
-                ServicesScreen(navController1)
+                ServicesScreen(navController1,sharedVM)
             }
 
             composable(route = Routes.Request.routes){
@@ -69,11 +69,11 @@ fun BottomNav(navController: NavHostController) {
             }
 
             composable(Routes.OwnerDetails.routes){
-                OwnerDetailsScreen(navController1)
+                OwnerDetailsScreen(navController1,sharedVM)
             }
 
             composable(Routes.OwnerDetails2.routes){
-                OwnerDetailScreen2(navController1)
+                OwnerDetailScreen2(navController1,sharedVM)
             }
 
             composable(Routes.LandAreaDetails.routes){

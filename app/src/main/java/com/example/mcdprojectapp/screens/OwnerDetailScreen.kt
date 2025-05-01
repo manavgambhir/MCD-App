@@ -1,6 +1,7 @@
 package com.example.mcdprojectapp.screens
 
 import android.app.DatePickerDialog
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -32,6 +34,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,17 +44,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mcdprojectapp.models.OwnerDetails
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OwnerDetailsScreen(navController: NavHostController) {
+fun OwnerDetailsScreen(navController: NavHostController, sharedVM: SharedVM) {
     val scrollState = rememberScrollState()
 
     var firstName by remember { mutableStateOf("") }
@@ -63,6 +71,17 @@ fun OwnerDetailsScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var pan by remember { mutableStateOf("") }
     var ownership by remember { mutableStateOf("") }
+
+    var countryExpanded by remember { mutableStateOf(false) }
+    var countrySelected by remember { mutableStateOf("") }
+    val countryList = listOf("India", "Nepal", "Bhutan", "Bangladesh")
+
+    // TODO: Full state list
+    var stateExpanded by remember { mutableStateOf(false) }
+    var stateSelected by remember { mutableStateOf("") }
+    val stateList = listOf("Delhi", "Haryana", "Uttar Pradesh", "Maharashtra")
+
+    var pincode by remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val calendar = remember { Calendar.getInstance() }
@@ -88,6 +107,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = firstName,
             onValueChange = { firstName = it },
+            placeholder = { Text(text = "Enter First Name") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -106,6 +126,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = middleName,
             onValueChange = { middleName = it },
+            placeholder = { Text(text = "Enter Middle Name") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -124,6 +145,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = lastName,
             onValueChange = { lastName = it },
+            placeholder = { Text(text = "Enter Last Name") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -149,6 +171,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
             TextField(
                 value = gender,
                 onValueChange = {},
+                placeholder = { Text(text = "Select Gender") }, 
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderExpanded)
@@ -181,10 +204,8 @@ fun OwnerDetailsScreen(navController: NavHostController) {
             }
         }
 
-
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // TODO: OnClick Functionality not working
         val datePickerDialog = remember {
             DatePickerDialog(
                 context,
@@ -203,7 +224,8 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         TextField(
             value = dob,
-            onValueChange = {}, // Since it's read-only
+            onValueChange = {},
+            placeholder = { Text(text = "Select Date of Birth") }, 
             readOnly = true,
             leadingIcon = {
                 Icon(Icons.Default.DateRange, contentDescription = "DOB")
@@ -233,6 +255,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = age,
             onValueChange = { age = it },
+            placeholder = { Text(text = "Enter Age") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -251,6 +274,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = phone,
             onValueChange = { phone = it },
+            placeholder = { Text(text = "Enter Phone Number") }, 
             leadingIcon = {
                 Icon(Icons.Default.Phone, contentDescription = "Phone")
             },
@@ -272,6 +296,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = email,
             onValueChange = { email = it },
+            placeholder = { Text(text = "Enter Email") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -290,6 +315,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = pan,
             onValueChange = { pan = it },
+            placeholder = { Text(text = "Enter PAN") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -308,12 +334,14 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         TextField(
             value = ownership,
             onValueChange = { ownership = it },
+            placeholder = { Text(text = "Enter Ownership Percentage") }, 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp)
@@ -321,46 +349,45 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         )
 
         Spacer(modifier = Modifier.padding(10.dp))
-        Text(text = "Owner Rebate")
 
+        Text(text = "Owner Rebate")
         var rebateExpanded by remember { mutableStateOf(false) }
         var rebateSelected by remember { mutableStateOf("") }
-        val rebateList = listOf("None", "Senior Citizen", "Freedom Fighter", "Ex-Serviceman")
+        val rebateOptions = listOf("Yes", "No")
 
         ExposedDropdownMenuBox(
-            modifier = Modifier.padding(2.dp),
             expanded = rebateExpanded,
             onExpandedChange = { rebateExpanded = !rebateExpanded }
         ) {
             TextField(
                 value = rebateSelected,
                 onValueChange = {},
+                placeholder = { Text(text = "Select Rebate Option") }, 
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = rebateExpanded)
                 },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+                    .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent
-                ),
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-                    .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
+                )
             )
-
             ExposedDropdownMenu(
                 expanded = rebateExpanded,
                 onDismissRequest = { rebateExpanded = false }
             ) {
-                rebateList.forEach { rebate ->
+                rebateOptions.forEach { option ->
                     DropdownMenuItem(
-                        text = { Text(rebate) },
+                        text = { Text(option) },
                         onClick = {
-                            rebateSelected = rebate
+                            rebateSelected = option
                             rebateExpanded = false
                         }
                     )
@@ -444,7 +471,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.padding(10.dp))
 
         Text(text = "Pincode")
-        var pincode by remember { mutableStateOf("") }
+
         TextField(
             value = pincode,
             onValueChange = { pincode = it },
@@ -462,12 +489,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // TODO: Full state list
         Text(text = "State")
-        var stateExpanded by remember { mutableStateOf(false) }
-        var stateSelected by remember { mutableStateOf("") }
-        val stateList = listOf("Delhi", "Haryana", "Uttar Pradesh", "Maharashtra")
-
         ExposedDropdownMenuBox(
             modifier = Modifier.padding(2.dp),
             expanded = stateExpanded,
@@ -513,10 +535,6 @@ fun OwnerDetailsScreen(navController: NavHostController) {
 
         // TODO: Full country list
         Text(text = "Country")
-        var countryExpanded by remember { mutableStateOf(false) }
-        var countrySelected by remember { mutableStateOf("") }
-        val countryList = listOf("India", "Nepal", "Bhutan", "Bangladesh")
-
         ExposedDropdownMenuBox(
             modifier = Modifier.padding(2.dp),
             expanded = countryExpanded,
@@ -546,7 +564,7 @@ fun OwnerDetailsScreen(navController: NavHostController) {
                 expanded = countryExpanded,
                 onDismissRequest = { countryExpanded = false }
             ) {
-                countryList.forEach { country ->
+                countryList.forEach { country->
                     DropdownMenuItem(
                         text = { Text(country) },
                         onClick = {
@@ -558,60 +576,33 @@ fun OwnerDetailsScreen(navController: NavHostController) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        Text(text = "Select District")
-        var districtExpanded by remember { mutableStateOf(false) }
-        var districtSelected by remember { mutableStateOf("") }
-        val districtList = listOf("Central", "East", "West", "North", "South")
-
-        ExposedDropdownMenuBox(
-            modifier = Modifier.padding(2.dp),
-            expanded = districtExpanded,
-            onExpandedChange = { districtExpanded = !districtExpanded }
-        ) {
-            TextField(
-                value = districtSelected,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = districtExpanded)
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                ),
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-                    .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.small)
-            )
-
-            ExposedDropdownMenu(
-                expanded = districtExpanded,
-                onDismissRequest = { districtExpanded = false }
-            ) {
-                districtList.forEach { district ->
-                    DropdownMenuItem(
-                        text = { Text(district) },
-                        onClick = {
-                            districtSelected = district
-                            districtExpanded = false
-                        }
-                    )
-                }
-            }
-        }
-
         Spacer(modifier = Modifier.padding(20.dp))
 
         Button(
             onClick = {
-                val route = Routes.OwnerDetails2.routes
-                navController.navigate(route)
+                if(checkNotNull(firstName,lastName,gender,ownership,email,rebateSelected,addressLine1,pincode,stateSelected,countrySelected)){
+                    val owner = OwnerDetails(
+                        firstName = firstName,
+                        middleName = middleName,
+                        lastName = lastName,
+                        gender = gender,
+                        ownership = ownership.toInt(),
+                        email = email,
+                        ownerRebate = rebateSelected,
+                        address1 = addressLine1,
+                        address2 = addressLine2,
+                        pincode = pincode,
+                        state = stateSelected,
+                        country = countrySelected
+                    )
+                    sharedVM.addOwner(owner)
+                    val route = Routes.OwnerDetails2.routes
+                    navController.navigate(route)
+                }
+                else{
+                    Toast.makeText(context,"Fields can not be empty",Toast.LENGTH_SHORT).show()
+                }
+
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -626,11 +617,35 @@ fun OwnerDetailsScreen(navController: NavHostController) {
     }
 }
 
+fun checkNotNull(
+    firstName: String,
+    lastName: String,
+    gender: String,
+    ownership: String,
+    email: String,
+    rebateSelected: String,
+    addressLine1: String,
+    pincode: String,
+    state: String,
+    country: String
+): Boolean {
+    return firstName.isNotBlank() &&
+            lastName.isNotBlank() &&
+            gender.isNotBlank() &&
+            ownership.isNotBlank() &&
+            email.isNotBlank() &&
+            rebateSelected.isNotBlank() &&
+            addressLine1.isNotBlank() &&
+            pincode.isNotBlank() &&
+            state.isNotBlank() &&
+            country.isNotBlank()
+}
 
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun OwnerDetailPreview(){
+    val sharedVM:SharedVM = viewModel()
     val navController = rememberNavController()
-    OwnerDetailsScreen(navController)
+    OwnerDetailsScreen(navController, sharedVM)
 }

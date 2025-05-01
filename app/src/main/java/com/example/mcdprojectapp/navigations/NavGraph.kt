@@ -1,10 +1,10 @@
 package com.example.mcdprojectapp.navigations
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.example.mcdprojectapp.screens.AddFloorScreen
 import com.example.mcdprojectapp.screens.AddOwnerScreen
 import com.example.mcdprojectapp.screens.BottomNav
@@ -19,9 +19,11 @@ import com.example.mcdprojectapp.screens.ServicesScreen
 import com.example.mcdprojectapp.screens.SplashScreen
 import com.example.mcdprojectapp.screens.TaxFactorDetails
 import com.example.mcdprojectapp.screens.TaxFactorScreen
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @Composable
 fun NavGraph(navHostController: NavHostController) {
+    val sharedVM: SharedVM = viewModel()
     NavHost(navController = navHostController, startDestination = Routes.Splash.routes){
         composable(Routes.Splash.routes){
             SplashScreen(navHostController)
@@ -36,7 +38,7 @@ fun NavGraph(navHostController: NavHostController) {
         }
 
         composable(Routes.Services.routes){
-            ServicesScreen(navHostController)
+            ServicesScreen(navHostController,sharedVM)
         }
 
         composable(Routes.Request.routes){
@@ -44,7 +46,7 @@ fun NavGraph(navHostController: NavHostController) {
         }
 
         composable(Routes.BottomNav.routes){
-            BottomNav(navHostController)
+            BottomNav(navHostController,sharedVM)
         }
 
         composable(Routes.CategoryDetail.routes){
@@ -56,11 +58,11 @@ fun NavGraph(navHostController: NavHostController) {
         }
 
         composable(Routes.OwnerDetails.routes){
-            OwnerDetailsScreen(navHostController)
+            OwnerDetailsScreen(navHostController, sharedVM)
         }
 
         composable(Routes.OwnerDetails2.routes){
-            OwnerDetailScreen2(navHostController)
+            OwnerDetailScreen2(navHostController, sharedVM)
         }
 
         composable(Routes.LandAreaDetails.routes){

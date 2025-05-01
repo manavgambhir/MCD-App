@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 fun OwnerDetailItem(
     fullName: String,
     gender: String,
-    ownership: Double,
+    ownership: Int,
     email: String,
     rebate: String,
     address: String,
@@ -86,7 +86,7 @@ fun OwnerDetailItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedButton(
-                    onClick = { },
+                    onClick = onEditClick,
                     modifier = Modifier.weight(1f),
                     border = BorderStroke(1.dp, Color(0xFF111184)),
                     colors = ButtonDefaults.outlinedButtonColors(
@@ -114,8 +114,7 @@ fun OwnerDetailItem(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 OutlinedButton(
-                    onClick = { },
-
+                    onClick = onDeleteClick,
                     border = BorderStroke(1.dp, Color.Transparent),
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.Red
@@ -145,7 +144,7 @@ fun OwnerPreview(){
     OwnerDetailItem(
         fullName = "Vikram Singh Rathode",
         gender = "Male",
-        ownership = 100.0,
+        ownership = 100,
         email = "Winifred37@hotmail.com",
         rebate = "123",
         address = "2298 S Front Street, Port Alysson 54305"

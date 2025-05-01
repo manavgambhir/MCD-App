@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,14 +42,38 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mcdprojectapp.navigations.Routes
+import com.example.mcdprojectapp.viewModel.SharedVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 //navController: NavHostController
-fun ServicesScreen(navController: NavHostController){
+fun ServicesScreen(navController: NavHostController, sharedVM: SharedVM){
     var showDialog by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()){
         val scrollState = rememberScrollState()
+
+        var pincode by remember { mutableStateOf("") }
+
+        var stateExpanded by remember { mutableStateOf(false) }
+        var stateSelected by remember { mutableStateOf("") }
+        val stateList = listOf(
+            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+            "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+            "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+            "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+            "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+            "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+            "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Lakshadweep",
+            "Delhi", "Puducherry"
+        )
+
+        var ctryExpanded by remember { mutableStateOf(false) }
+        var ctrySelected by remember { mutableStateOf("") }
+        val ctryList = listOf(
+            "Afghanistan", "Argentina", "Australia", "Brazil", "Canada",
+            "China", "France", "Germany", "India", "Italy",
+            "Japan", "Mexico", "Russia", "South Africa", "United States"
+        )
 
         Column(modifier = Modifier.padding(10.dp)
             .fillMaxSize().
@@ -375,8 +398,6 @@ fun ServicesScreen(navController: NavHostController){
 
             Text(text = "Pincode")
 
-            var pincode by remember { mutableStateOf("") }
-
             TextField(
                 value = pincode,
                 onValueChange = { pincode = it },
@@ -398,18 +419,7 @@ fun ServicesScreen(navController: NavHostController){
 
             Spacer(modifier = Modifier.padding(10.dp))
 
-            var stateExpanded by remember { mutableStateOf(false) }
-            var stateSelected by remember { mutableStateOf("") }
-            val stateList = listOf(
-                "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-                "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
-                "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
-                "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
-                "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-                "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
-                "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Lakshadweep",
-                "Delhi", "Puducherry"
-            )
+
 
             Text(text = "State")
 
@@ -457,14 +467,6 @@ fun ServicesScreen(navController: NavHostController){
             }
 
             Spacer(modifier = Modifier.padding(10.dp))
-
-            var ctryExpanded by remember { mutableStateOf(false) }
-            var ctrySelected by remember { mutableStateOf("") }
-            val ctryList = listOf(
-                "Afghanistan", "Argentina", "Australia", "Brazil", "Canada",
-                "China", "France", "Germany", "India", "Italy",
-                "Japan", "Mexico", "Russia", "South Africa", "United States"
-            )
 
             Text(text = "Country")
 
@@ -567,6 +569,13 @@ fun ServicesScreen(navController: NavHostController){
 
                             Button(
                                 onClick = {
+//                                    sharedVM.saveAddressInfo(
+//                                        address1 = ,
+//                                        address2 = ,
+//                                        pincode = pincode,
+//                                        state = stateSelected,
+//                                        country = ctrySelected
+//                                    )
                                     val route = Routes.CategoryDetail.routes
                                     navController.navigate(route)
                                     showDialog = false },
@@ -591,6 +600,6 @@ fun ServicesScreen(navController: NavHostController){
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ServicePreview(){
-    val navController = rememberNavController()
-    ServicesScreen(navController)
+//    val navController = rememberNavController()
+//    ServicesScreen(navController, sharedVM)
 }
